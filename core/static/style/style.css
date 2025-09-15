@@ -1,0 +1,94 @@
+/* Estilos gerais */
+body {
+    background-color: #15202b;
+    color: #ffffff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Estilos do post */
+.post {
+    border-bottom: 1px solid #38444d;
+    padding: 15px;
+    transition: background-color 0.2s;
+}
+
+.post:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.post-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 5px;
+}
+
+.post-user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 12px;
+    background-color: #192734;
+}
+
+.post-user-info {
+    flex: 1;
+}
+
+.post-user-name {
+    font-weight: bold;
+    color: #ffffff;
+    margin-right: 5px;
+}
+
+.post-user-handle, 
+.post-time {
+    color: #8899a6;
+    font-size: 0.95em;
+}
+
+.post-content {
+    margin-left: 60px;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    line-height: 1.5;
+}
+
+/* Estilos das ações do post */
+.post-actions {
+    margin-left: 60px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 425px;
+}
+
+.action-button {
+    color: #8899a6;
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.action-button:hover {
+    color: #1da1f2;
+    background-color: rgba(29, 161, 242, 0.1);
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .container {
+        margin: 0;
+        max-width: 100%;
+    }
+    
+    .post-actions {
+        margin-left: 50px;
+    }
+}
