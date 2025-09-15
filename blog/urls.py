@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from core import views
 
 urlpatterns = [
+    path('', views.feed, name='feed'),  # Configurando o feed como página inicial
     path('admin/', admin.site.urls),
 ]
