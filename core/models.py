@@ -15,6 +15,7 @@ class Post(models.Model):
     content = models.TextField(null=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     created_by = models.DateTimeField(auto_now_add=True)
+    likes = models.IntegerField(default=0)
 
     def str(self):
         return self.title
@@ -25,6 +26,7 @@ class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     content = models.CharField(max_length=300, null=False)
     created_by = models.DateTimeField(auto_now_add=True)
+    likes = models.IntegerField(default=0)
 
     def str(self):
         return f"{self.author} comentou no post {self.post}"
