@@ -51,13 +51,6 @@ body {
     font-size: 0.95em;
 }
 
-.post-content {
-    margin-left: 60px;
-    margin-bottom: 10px;
-    font-size: 1.1em;
-    line-height: 1.5;
-}
-
 /* Estilos das ações do post */
 .post-actions {
     margin-left: 60px;
@@ -76,10 +69,10 @@ body {
     transition: all 0.2s;
 }
 
-.action-button:hover {
+/*.action-button:hover {
     color: #1da1f2;
     background-color: rgba(29, 161, 242, 0.1);
-}
+}*/
 
 /* Responsividade */
 @media (max-width: 600px) {
@@ -90,5 +83,95 @@ body {
     
     .post-actions {
         margin-left: 50px;
+    }
+}
+
+/* Header full-width (não full-height) */
+.site-header {
+    width: 100%; /* ocupa toda a largura da janela */
+    display: flex;
+    align-items: center; /* centraliza verticalmente dentro do próprio padding */
+    justify-content: center;
+    text-align: left;
+    padding: 10px 16px; /* barra baixa: menos padding */
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #0f1418 0%, #15202b 60%); /* degrade sutil */
+    color: #ffffff;
+    position: sticky; /* fixa no topo quando der scroll */
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.site-header .header-content {
+    max-width: 1100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* esquerda: título, direita: ações */
+    gap: 12px;
+}
+
+.site-title {
+    font-size: 1.05rem; /* menor para navbar */
+    line-height: 1;
+    margin: 0;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.site-subtitle {
+    display: none; /* esconder subtítulo em barra de navegação */
+}
+
+.header-cta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.btn-primary {
+    background-color: #1da1f2;
+    color: #0b1419;
+    border: none;
+    padding: 6px 12px; /* menor */
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    font-size: 0.95rem;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(29,161,242,0.12);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: #8899a6;
+    border: 1px solid rgba(136,153,166,0.12);
+    padding: 6px 10px; /* menor */
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+/* Ajustes para telas pequenas */
+@media (max-width: 600px) {
+    .site-title {
+        font-size: 0.95rem;
+    }
+
+    .site-subtitle {
+        display: none;
+    }
+
+    .header-cta {
+        gap: 8px;
+    }
+
+    .site-header {
+        padding: 8px 12px; /* ainda menor em mobile */
     }
 }
