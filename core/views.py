@@ -29,7 +29,7 @@ def curtir_post(request, post_id):
         return JsonResponse({"likes": post.likes})
 
 def post_detail(request, post_id):
-    post = get_object_or_404(Post, id=post_id)
+    post = get_object_or_404(Post, id=int(post_id))
     if request.method == 'POST':
         # criar um comentário simples
         content = request.POST.get('content')
@@ -37,6 +37,10 @@ def post_detail(request, post_id):
         if content and author:
             Comment.objects.create(post=post, author=author, content=content)
             return redirect('post_detail', post_id=post.id)
+    
+    if request.method == "DELETE":
+        post.delete()
+        return JsonResponse({"success": True})
 
     comments = post.comments.all().order_by('created_by')
     return render(request, 'pages/post.html', {'post': post, 'comments': comments})
