@@ -1,0 +1,245 @@
+.post {
+    border-bottom: 1px solid #38444d;
+    padding: 15px;
+    transition: background-color 0.2s;
+}
+
+.post:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.post-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 5px;
+}
+
+.post-user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 12px;
+    background-color: #192734;
+}
+
+.post-user-info {
+    flex: 1;
+}
+
+.post-user-name {
+    font-weight: bold;
+    color: #ffffff;
+    margin-right: 5px;
+}
+
+.post-user-handle, 
+.post-time {
+    color: #8899a6;
+    font-size: 0.95em;
+}
+
+/* Estilos das ações do post */
+.post-actions {
+    margin-left: 60px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 425px;
+}
+
+.action-button {
+    color: #8899a6;
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+/*.action-button:hover {
+    color: #1da1f2;
+    background-color: rgba(29, 161, 242, 0.1);
+}*/
+
+/* Responsividade */
+@media (max-width: 600px) {
+    .container {
+        margin: 0;
+        max-width: 100%;
+    }
+    
+    .post-actions {
+        margin-left: 50px;
+    }
+}
+
+/* Header full-width (não full-height) */
+.site-header {
+    width: 100%; /* ocupa toda a largura da janela */
+    display: flex;
+    align-items: center; /* centraliza verticalmente dentro do próprio padding */
+    justify-content: center;
+    text-align: left;
+    padding: 10px 16px; /* barra baixa: menos padding */
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #0f1418 0%, #15202b 60%); /* degrade sutil */
+    color: #ffffff;
+    position: sticky; /* fixa no topo quando der scroll */
+    top: 0;
+    z-index: 50;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.site-header .header-content {
+    max-width: 1100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* esquerda: título, direita: ações */
+    gap: 12px;
+}
+
+.site-title {
+    font-size: 1.05rem; /* menor para navbar */
+    line-height: 1;
+    margin: 0;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.site-subtitle {
+    display: none; /* esconder subtítulo em barra de navegação */
+}
+
+.header-cta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.btn-primary {
+    background-color: #1da1f2;
+    color: #0b1419;
+    border: none;
+    padding: 6px 12px; /* menor */
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    font-size: 0.95rem;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(29,161,242,0.12);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: #8899a6;
+    border: 1px solid rgba(136,153,166,0.12);
+    padding: 6px 10px; /* menor */
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+
+
+/* Ajustes para telas pequenas */
+@media (max-width: 600px) {
+    .site-title {
+        font-size: 0.95rem;
+    }
+
+    .site-subtitle {
+        display: none;
+    }
+
+    .header-cta {
+        gap: 8px;
+    }
+
+    .site-header {
+        padding: 8px 12px; /* ainda menor em mobile */
+    }
+}
+
+/* Estilos para o diálogo de novo post */
+dialog {
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    background: transparent; /* o formulário interno terá o fundo */
+}
+
+dialog::backdrop {
+    background: rgba(0,0,0,0.6);
+}
+
+.new-post-form {
+    background: #0f1418;
+    color: #fff;
+    padding: 20px;
+    width: 420px;
+    max-width: calc(100% - 40px);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+.new-post-title {
+    background: #071014;
+    color: #e6eef2;
+    border: 1px solid rgba(255,255,255,0.04);
+    padding: 10px 12px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.new-post-title:focus {
+    box-shadow: 0 0 0 4px rgba(29,161,242,0.08);
+    border-color: #1da1f2;
+}
+
+.new-post-content {
+    min-height: 120px;
+    max-height: 360px;
+    resize: vertical;
+    background: #071014;
+    color: #e6eef2;
+    border: 1px solid rgba(255,255,255,0.04);
+    padding: 10px 12px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.new-post-content:focus {
+    box-shadow: 0 0 0 4px rgba(29,161,242,0.08);
+    border-color: #1da1f2;
+}
+
+.new-post-submit {
+    align-self: flex-end;
+    background: #1da1f2;
+    color: #071014;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.new-post-submit:active {
+    transform: translateY(1px);
+}
+
+@media (max-width: 420px) {
+    .new-post-form {
+        width: 100%;
+        padding: 14px;
+    }
+}

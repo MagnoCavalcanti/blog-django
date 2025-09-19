@@ -1,0 +1,39 @@
+.post {
+    border-bottom: 1px solid #38444d;
+    padding: 15px;
+    transition: background-color 0.2s;
+}
+
+.post:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.post-header {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 5px;
+}
+
+.post-user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 12px;
+    background-color: #192734;
+}
+
+.post-user-info {
+    flex: 1;
+}
+
+.post-user-name {
+    font-weight: bold;
+    color: #ffffff;
+    margin-right: 5px;
+}
+
+.post-user-handle, 
+.post-time {
+    color: #8899a6;
+    font-size: 0.95em;
+}

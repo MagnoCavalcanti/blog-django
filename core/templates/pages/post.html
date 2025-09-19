@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}{{ post.title }} - Meu Blog{% endblock %}
-
+{% block extra_css %} 
+<link rel="stylesheet" href="{% static '/style/post.css' %}">
+{% endblock %}
 {% block conteudo %}
 <div class="container" style="padding-top:18px;">
 	<article class="post">

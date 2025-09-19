@@ -1,6 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block title %}Feed - Meu Blog{% endblock %}
+
+{% block extra_css %} 
+<link rel="stylesheet" href="{% static '/style/feed.css' %}">
+{% endblock %}
 
 {% block conteudo %}
 <div class="feed-container">
