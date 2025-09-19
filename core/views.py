@@ -4,6 +4,19 @@ from .models import Post, Comment, User
 from django.shortcuts import redirect
 
 def feed(request):
+    if request.method == "POST":
+        title = request.POST.get("title")
+        content = request.POST.get("content")
+        author = User.objects.first()
+        if title and content and author:
+            Post.objects.create(
+                title=title,
+                content=content,
+                author=author
+            )
+
+            return redirect('feed')
+        
     posts = Post.objects.all().order_by('-created_by')  # Ordena do mais recente para o mais antigo
     return render(request, 'pages/feed.html', {'posts': posts})
 
