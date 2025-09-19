@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from .models import Post, Comment, User
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 
 def feed(request):
     if request.method == "POST":
@@ -19,7 +20,16 @@ def feed(request):
             return redirect('feed')
         
     posts = Post.objects.all().order_by('-created_by')  # Ordena do mais recente para o mais antigo
-    return render(request, 'pages/feed.html', {'posts': posts})
+    paginator = Paginator(posts, 5)
+    page = int(request.GET.get('page', 1))
+    posts = paginator.page(page)
+
+    response = {'posts': posts, 'page': page}
+
+    if 'HX-Request' in request.headers:
+        return render(request, "partials/posts.html", response)
+
+    return render(request, 'pages/feed.html', response)
 
 def curtir_post(request, post_id):
     if request.method == "POST":
