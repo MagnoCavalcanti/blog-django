@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from .models import Post, Comment, User
 from django.shortcuts import redirect
+from django.views.decorators.csrf import csrf_exempt
 
 def feed(request):
     if request.method == "POST":
@@ -28,6 +29,7 @@ def curtir_post(request, post_id):
         post.save()
         return JsonResponse({"likes": post.likes})
 
+@csrf_exempt
 def post_detail(request, post_id):
     post = get_object_or_404(Post, id=int(post_id))
     if request.method == 'POST':
