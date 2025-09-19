@@ -37,3 +37,31 @@
     color: #8899a6;
     font-size: 0.95em;
 }
+
+
+.btn-primary {
+    background-color: #1da1f2;
+    color: #0b1419;
+    border: none;
+    padding: 6px 12px; /* menor */
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+    font-size: 0.95rem;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(29,161,242,0.12);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: #8899a6;
+    border: 1px solid rgba(136,153,166,0.12);
+    padding: 6px 10px; /* menor */
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.95rem;
+}
