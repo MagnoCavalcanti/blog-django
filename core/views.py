@@ -71,5 +71,5 @@ class PostDetailView(View):
 
     def delete(self, request, post_id):
         post = get_object_or_404(Post, id=int(post_id))
-        post.delete()
+        post.delete(hard=False)  # usando soft delete
         return JsonResponse({"success": True})
