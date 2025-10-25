@@ -19,8 +19,8 @@ from django.urls import path
 from core import views
 
 urlpatterns = [
-    path('', views.feed, name='feed'),  # Configurando o feed como página inicial
-    path('posts/<int:post_id>/', views.post_detail, name='post_detail'),
-    path('curtir/<int:post_id>/', views.curtir_post, name='curtir_post'),
+    path('', views.FeedView.as_view(), name='feed'),  # Configurando o feed como página inicial
+    path('posts/<int:post_id>/', views.PostDetailView.as_view(), name='post_detail'),
+    path('curtir/<int:post_id>/', views.CurtirPostView.as_view(), name='curtir_post'),
     path('admin/', admin.site.urls),
 ]

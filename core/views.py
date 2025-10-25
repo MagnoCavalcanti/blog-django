@@ -1,58 +1,75 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseNotAllowed
+from django.views import View
 from .models import Post, Comment, User
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator
 
-def feed(request):
-    if request.method == "POST":
+
+class FeedView(View):
+    """Lista de posts (GET) e criação rápida de post (POST).
+
+    Mantive o comportamento anterior: se o cabeçalho 'HX-Request' estiver
+    presente, renderiza o partial `partials/posts.html`.
+    """
+
+    def get(self, request):
+        posts = Post.objects.all().order_by('-created_by')
+        paginator = Paginator(posts, 5)
+        page = int(request.GET.get('page', 1))
+        posts = paginator.page(page)
+
+        response = {'posts': posts, 'page': page}
+
+        if 'HX-Request' in request.headers:
+            return render(request, "partials/posts.html", response)
+
+        return render(request, 'pages/feed.html', response)
+
+    def post(self, request):
         title = request.POST.get("title")
         content = request.POST.get("content")
         author = User.objects.first()
         if title and content and author:
-            Post.objects.create(
-                title=title,
-                content=content,
-                author=author
-            )
-
+            Post.objects.create(title=title, content=content, author=author)
             return redirect('feed')
-        
-    posts = Post.objects.all().order_by('-created_by')  # Ordena do mais recente para o mais antigo
-    paginator = Paginator(posts, 5)
-    page = int(request.GET.get('page', 1))
-    posts = paginator.page(page)
 
-    response = {'posts': posts, 'page': page}
+        # se faltar campos, apenas re-renderiza a lista (poderia mostrar erro)
+        return self.get(request)
 
-    if 'HX-Request' in request.headers:
-        return render(request, "partials/posts.html", response)
 
-    return render(request, 'pages/feed.html', response)
+class CurtirPostView(View):
+    """Endpoint que incrementa `likes` no Post e retorna JSON com o novo total."""
 
-def curtir_post(request, post_id):
-    if request.method == "POST":
+    def post(self, request, post_id):
         post = get_object_or_404(Post, id=post_id)
-        # incrementa o campo `likes` definido no modelo
         post.likes = (post.likes or 0) + 1
         post.save()
         return JsonResponse({"likes": post.likes})
 
-@csrf_exempt
-def post_detail(request, post_id):
-    post = get_object_or_404(Post, id=int(post_id))
-    if request.method == 'POST':
-        # criar um comentário simples
+
+@method_decorator(csrf_exempt, name='dispatch')
+class PostDetailView(View):
+    """Mostra o detalhe do post (GET), cria comentário (POST) e permite DELETE."""
+
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, id=int(post_id))
+        comments = post.comments.all().order_by('created_by')
+        return render(request, 'pages/post.html', {'post': post, 'comments': comments})
+
+    def post(self, request, post_id):
+        post = get_object_or_404(Post, id=int(post_id))
         content = request.POST.get('content')
         author = User.objects.first()
         if content and author:
             Comment.objects.create(post=post, author=author, content=content)
             return redirect('post_detail', post_id=post.id)
-    
-    if request.method == "DELETE":
+        # reexibe mesmo que sem criar
+        return self.get(request, post_id)
+
+    def delete(self, request, post_id):
+        post = get_object_or_404(Post, id=int(post_id))
         post.delete()
         return JsonResponse({"success": True})
-
-    comments = post.comments.all().order_by('created_by')
-    return render(request, 'pages/post.html', {'post': post, 'comments': comments})
