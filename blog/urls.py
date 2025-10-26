@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.views import LogoutView
 from django.urls import path
 from core import views
 
@@ -22,5 +23,6 @@ urlpatterns = [
     path('', views.FeedView.as_view(), name='feed'),  # Configurando o feed como página inicial
     path('posts/<int:post_id>/', views.PostDetailView.as_view(), name='post_detail'),
     path('curtir/<int:post_id>/', views.CurtirPostView.as_view(), name='curtir_post'),
+    path('login/', views.LoginView.as_view(), name="login"),
     path('admin/', admin.site.urls),
 ]

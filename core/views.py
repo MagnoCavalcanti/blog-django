@@ -1,14 +1,17 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse, HttpResponseNotAllowed
+from django.http import JsonResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 from .models import Post, Comment, User
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator
 
 
-class FeedView(View):
+class FeedView(LoginRequiredMixin, View):
     """Lista de posts (GET) e criação rápida de post (POST).
 
     Mantive o comportamento anterior: se o cabeçalho 'HX-Request' estiver
@@ -48,6 +51,25 @@ class CurtirPostView(View):
         post.likes = (post.likes or 0) + 1
         post.save()
         return JsonResponse({"likes": post.likes})
+    
+class LoginView(View):
+
+    def get(self, request):
+        return render(request, 'pages/login.html')
+
+
+    def post(self, request):
+        username = request.POST.get('username')
+        senha = request.POST.get('password')
+        user = authenticate(self.request, username=username, password=senha)
+
+        if user is not None:
+            login(request, user)
+            messages.success(request, f"Bem-vindo, {user.username}!")
+            return redirect('feed')
+        else:
+            messages.error(self.request, "Usuário ou senha incorretos.")
+            return redirect('login')
 
 
 @method_decorator(csrf_exempt, name='dispatch')

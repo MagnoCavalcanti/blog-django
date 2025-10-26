@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login - Meu Blog{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'style/login.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+<div class="login-page">
+    <div class="login-card">
+        <form method="POST" action="{% url 'login' %}">{% csrf_token %}
+            <input type="text" name="username" id="username" class="input-outline" placeholder="username">
+            <input type="password" name="password" id="password" class="input-outline" placeholder="senha">
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+</div>
+{% for message in messages %}
+    <p class="message">{{ message }}</p>
+  {% endfor %}
+
+{% endblock %}
