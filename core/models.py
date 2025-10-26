@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.utils import timezone
 from .managers import SoftDeletableManager
 
@@ -16,12 +17,7 @@ class SoftDeletableMixin(models.Model):
     class Meta:
         abstract = True
 
-class User(SoftDeletableMixin, models.Model):
-    username = models.CharField(max_length=100, null=False)
-    email = models.EmailField(null=False)
 
-    def __str__(self):
-        return self.username
 
 class Post(SoftDeletableMixin, models.Model):
     title = models.CharField(max_length=200, null=False)
