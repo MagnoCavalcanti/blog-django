@@ -82,8 +82,10 @@ class RegisterView(View):
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
         email = request.POST.get('email')
+        first_name = request.POST.get('first-name')
+        last_name = request.POST.get('last-name')
 
-        if not username or not password:
+        if not username or not password or not email or not first_name or not last_name:
             messages.error(request, "Preencha todos os campos.")
             return redirect('register')
 
@@ -95,7 +97,7 @@ class RegisterView(View):
             messages.error(request, "Nome de usuário já está em uso.")
             return redirect('register')
 
-        user = User(username=username, email=email)
+        user = User(username=username, email=email, last_name=last_name, first_name=first_name)
         user.set_password(password)
         user.save()
 

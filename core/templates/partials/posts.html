@@ -2,7 +2,7 @@
     <article class="post">
         <div class="post-header">
             <div class="post-user-info">
-                <span class="post-user-name">{{ post.author.username }}</span>
+                <span class="post-user-name">{{ post.author.first_name }} {{ post.author.last_name }}</span>
                 <span class="post-user-handle">@{{ post.author.username|lower }}</span>
                 <span class="post-time">· {{ post.created_by|timesince }}</span>
 
