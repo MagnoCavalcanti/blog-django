@@ -71,6 +71,42 @@ class LoginView(View):
             messages.error(self.request, "Usuário ou senha incorretos.")
             return redirect('login')
 
+class RegisterView(View):
+
+    def get(self, request):
+        return render(request, 'pages/register.html')
+    
+    def post(self, request):
+        
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        password2 = request.POST.get('password2')
+        email = request.POST.get('email')
+
+        if not username or not password:
+            messages.error(request, "Preencha usuário e senha.")
+            return redirect('register')
+
+        if password2 and password != password2:
+            messages.error(request, "As senhas não coincidem.")
+            return redirect('register')
+
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Nome de usuário já está em uso.")
+            return redirect('register')
+
+        user = User(username=username, email=email)
+        user.set_password(password)
+        user.save()
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, "Cadastro realizado com sucesso!")
+            return redirect('feed')
+
+        messages.success(request, "Cadastro realizado. Faça login.")
+        return redirect('login')
 
 @method_decorator(csrf_exempt, name='dispatch')
 class PostDetailView(View):

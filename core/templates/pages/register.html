@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Cadastro - Meu Blog{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'style/register.css' %}">
+{% endblock %}
+
+{% block conteudo %}
+<div class="login-page">
+    <div class="login-card">
+        <form method="POST" action="{% url 'register' %}">{% csrf_token %}
+            <input type="text" name="username" id="username" class="input-outline" placeholder="Nome de usuário">
+            <input type="email" name="email" id="email" class="input-outline" placeholder="E-mail">
+            <input type="text" name="first-name" id="first-name" class="input-outline" placeholder="Nome">
+            <input type="text" name="last-name" id="last-name" class="input-outline" placeholder="Sobrenome">
+            <input type="password" name="password" id="password" class="input-outline" placeholder="Senha">
+            <input type="password" name="password2" id="password2" class="input-outline" placeholder="Confirma sua senha">
+            
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+</div>
+{% for message in messages %}
+    <p class="message">{{ message }}</p>
+{% endfor %}
+{% endblock %}
