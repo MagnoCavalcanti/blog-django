@@ -34,7 +34,7 @@ class FeedView(LoginRequiredMixin, View):
     def post(self, request):
         title = request.POST.get("title")
         content = request.POST.get("content")
-        author = User.objects.first()
+        author = request.user
         if title and content and author:
             Post.objects.create(title=title, content=content, author=author)
             return redirect('feed')
@@ -84,7 +84,7 @@ class RegisterView(View):
         email = request.POST.get('email')
 
         if not username or not password:
-            messages.error(request, "Preencha usuário e senha.")
+            messages.error(request, "Preencha todos os campos.")
             return redirect('register')
 
         if password2 and password != password2:
@@ -109,7 +109,7 @@ class RegisterView(View):
         return redirect('login')
 
 @method_decorator(csrf_exempt, name='dispatch')
-class PostDetailView(View):
+class PostDetailView(LoginRequiredMixin, View):
     """Mostra o detalhe do post (GET), cria comentário (POST) e permite DELETE."""
 
     def get(self, request, post_id):
