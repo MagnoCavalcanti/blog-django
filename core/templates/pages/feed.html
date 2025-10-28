@@ -10,81 +10,53 @@
 {% block conteudo %}
 <div class="feed-container">
 
-     <dialog>
-         <form method="post" action="" class="new-post-form">
+    <dialog>
+        <form method="post" action="" class="new-post-form">
             {% csrf_token %}
             <input type="text" name="title" placeholder="Titulo do post" required class="new-post-title">
             <textarea name="content" placeholder="O que voce esta pensando?" required class="new-post-content"></textarea>
             <button type="submit" class="new-post-submit">Publicar</button>
-         </form>
-     </dialog>
+        </form>
+    </dialog>
 
-     <header class="site-header">
-         <div class="header-content container">
+    <header class="site-header">
+        <div class="header-content container">
             <h1 class="site-title">Feed</h1>
             <p class="site-subtitle">Acompanhe as publicacoes da comunidade e compartilhe suas ideias.</p>
             <div class="header-cta">
-              <button id="open-dialog-btn" class="btn-primary">Criar Post</button>
-              <form action="{% url 'logout' %}" method="post">
-                   {% csrf_token %}
-                   <button class="btn-ghost">Sair</button>
-              </form>
+                <button id="open-dialog-btn" class="btn-primary">Criar Post</button>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="btn-ghost">Sair</button>
+                </form>
             </div>
-         </div>
-     </header>
+        </div>
+    </header>
 
     <div class="feed-tabs-container">
-        <div class="aba selecionada" data-tab="recentes">
-            <a href="#" class="link-aba">Recentes</a>
+        
+        <div class="aba {% if current_order != 'views' %}selecionada{% endif %}" data-tab="recentes">
+            <a href="{% url 'feed' %}?order=recent" class="link-aba">Recentes</a>
         </div>
-        <div class="aba" data-tab="mais-vistos">
-            <a href="#" class="link-aba">Mais Vistos</a>
+        
+        <div class="aba {% if current_order == 'views' %}selecionada{% endif %}" data-tab="mais-vistos">
+            <a href="{% url 'feed' %}?order=views" class="link-aba">Mais Vistos</a>
         </div>
     </div>
-         <script>
-         document.addEventListener('DOMContentLoaded', function() {
-            // --- Logica do Dialogo (Modal) ---
-            const dialog = document.querySelector('dialog');
-            const openBtn = document.getElementById('open-dialog-btn'); 
-    
-            openBtn.addEventListener('click', function() {
-              dialog.showModal();
-            });
-            
-            dialog.addEventListener('click', function(event) {
-              if (event.target === dialog) {
-                   dialog.close();
-              }
-            });
 
-            // --- Logica das Abas (Recentes / Mais Vistos) ---
-            const tabs = document.querySelectorAll('.aba');
-
-            tabs.forEach(tab => {
-              tab.addEventListener('click', function(e) {
-                   e.preventDefault(); 
-
-                   // 1. Remove a selecao (linha azul) de todas as abas
-                   tabs.forEach(t => t.classList.remove('selecionada'));
-        
-                   // 2. Adiciona a selecao a aba clicada
-                   this.classList.add('selecionada');
-        
-                   // Lógica para carregar posts viria aqui (AJAX)
-              });
-            });
-
-         });
-     </script>
-
-     {% if posts %}
-         <div id="posts">
+    {% if posts %}
+        <div id="posts">
             {% include "partials/posts.html" %}
-         </div>
-     {% else %}
-         <div class="no-posts">
+        </div>
+    {% else %}
+        <div class="no-posts">
             <p>Ainda nao ha posts publicados.</p>
-         </div>
-     {% endif %}
+        </div>
+    {% endif %}
+
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/feed.js' %}"></script>
 {% endblock %}
