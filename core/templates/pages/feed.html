@@ -24,6 +24,11 @@
             <p class="site-subtitle">Acompanhe as publicações da comunidade e compartilhe suas ideias.</p>
             <div class="header-cta">
                 <button id="open-dialog-btn" class="btn-primary">Criar Post</button>
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button id="open-dialog-btn" class="btn-ghost">Sair</button>
+                </form>
+                
             </div>
         </div>
     </header>
