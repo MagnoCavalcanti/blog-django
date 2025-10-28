@@ -10,7 +10,7 @@
 	<article class="post">
 		<div class="post-header">
 			<div class="post-user-info">
-				<span class="post-user-name">{{ post.author.username }}</span>
+				<span class="post-user-name">{{ post.author.first_name }} {{ post.author.last_name }}</span>
 				<span class="post-user-handle">@{{ post.author.username|lower }}</span>
 				<span class="post-time">· {{ post.created_by|timesince }}</span>
                 <span> 
@@ -47,7 +47,7 @@
 			<ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px;">
 				{% for comment in comments %}
 					<li style="background:#0f1418; padding:10px; border-radius:8px;">
-						<strong>{{ comment.author.username }}</strong> <span style="color:#8899a6;">· {{ comment.created_by|timesince }}</span>
+						<strong>{{ comment.author.first_name }} {{ comment.author.last_name }}</strong> <span style="color:#8899a6;">· {{ comment.created_by|timesince }}</span>
 						<div style="margin-top:6px; color:#dde7eb;">{{ comment.content }}</div>
 					</li>
 				{% endfor %}

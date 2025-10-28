@@ -122,7 +122,7 @@ class PostDetailView(LoginRequiredMixin, View):
     def post(self, request, post_id):
         post = get_object_or_404(Post, id=int(post_id))
         content = request.POST.get('content')
-        author = User.objects.first()
+        author = request.user
         if content and author:
             Comment.objects.create(post=post, author=author, content=content)
             return redirect('post_detail', post_id=post.id)
