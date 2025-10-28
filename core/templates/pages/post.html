@@ -58,7 +58,7 @@
 
 		<form method="post" action="" style="margin-top:12px;" class="new-comment-form">
 			{% csrf_token %}
-			<textarea name="content" placeholder="Adicione um comentário..." required style="width:100%; min-height:80px; padding:10px; border-radius:8px; background:#071014; color:#e6eef2; border:1px solid rgba(255,255,255,0.04);"></textarea>
+			<textarea name="content" placeholder="Adicione um comentário..." required style="width:100%; min-height:80px; padding:10px; border-radius:8px; background:#071014; color:#e6eef2; border:1px solid rgba(255,255,255,0.04); resize: none;"></textarea>
 			<div style="display:flex; gap:8px; justify-content:flex-end; margin-top:8px;">
 				<a href="{% url 'feed' %}" class="btn-ghost" style="text-decoration:none; display:inline-flex; align-items:center;">Voltar</a>
 				<button type="submit" class="btn-primary">Comentar</button>
