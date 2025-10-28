@@ -19,12 +19,16 @@ class FeedView(LoginRequiredMixin, View):
     """Lista de posts (GET) e criação rápida de post (POST)."""
 
     def get(self, request):
-        posts = Post.objects.all().order_by('-created_by')
+        order_by = request.GET.get('order', 'views') 
+        if order_by == 'views':
+            posts = Post.objects.all().order_by('-views_count', '-created_by')
+        else:
+            posts = Post.objects.all().order_by('-created_by')
         paginator = Paginator(posts, 5)
         page = int(request.GET.get('page', 1))
         posts = paginator.page(page)
 
-        response = {'posts': posts, 'page': page}
+        response = {'posts': posts, 'page': page, 'current_order': order_by} 
 
         if 'HX-Request' in request.headers:
             return render(request, "partials/posts.html", response)
