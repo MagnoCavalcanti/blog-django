@@ -10,15 +10,17 @@
 {% block conteudo %}
 <div class="login-page">
     <div class="login-card">
+        {% for message in messages %}
+            <p class="message">{{ message }}</p>
+        {% endfor %}
+
         <form method="POST" action="{% url 'login' %}">{% csrf_token %}
-            <input type="text" name="username" id="username" class="input-outline" placeholder="username">
-            <input type="password" name="password" id="password" class="input-outline" placeholder="senha">
+            <input type="text" name="username" id="username" class="input-outline" placeholder="Username">
+            <input type="password" name="password" id="password" class="input-outline" placeholder="Senha">
             <input type="submit" value="Enviar">
         </form>
+        <p>Não tem uma conta? <a href="{% url 'register' %}">Cadastre-se</a></p>
     </div>
 </div>
-{% for message in messages %}
-    <p class="message">{{ message }}</p>
-  {% endfor %}
 
 {% endblock %}

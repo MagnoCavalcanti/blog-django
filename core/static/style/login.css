@@ -13,6 +13,7 @@
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    color: black;
     padding: 26px;
     box-sizing: border-box;
 }
@@ -58,6 +59,14 @@ input[type="submit"]:hover{ background: #206fd4 }
     background-color: #FFEDED;
     color: #CC3333;
     font-size: 13px;
+    text-align: center;
+    border: 1px solid #CC3333;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+a {
+    text-decoration: none;
 }
 
 /* Caso o template não use a estrutura de card, aplicamos uma variante simples */
