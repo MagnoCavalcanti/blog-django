@@ -1,22 +1,22 @@
+# core/views.py
+
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
-from .models import Post, Comment, User
+from .models import Post, Comment, User, PostView # Importe PostView
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator
+from django.db.models import F 
+from django.utils import timezone 
 
 
 class FeedView(LoginRequiredMixin, View):
-    """Lista de posts (GET) e criação rápida de post (POST).
-
-    Mantive o comportamento anterior: se o cabeçalho 'HX-Request' estiver
-    presente, renderiza o partial `partials/posts.html`.
-    """
+    """Lista de posts (GET) e criação rápida de post (POST)."""
 
     def get(self, request):
         posts = Post.objects.all().order_by('-created_by')
@@ -39,7 +39,6 @@ class FeedView(LoginRequiredMixin, View):
             Post.objects.create(title=title, content=content, author=author)
             return redirect('feed')
 
-        # se faltar campos, apenas re-renderiza a lista (poderia mostrar erro)
         return self.get(request)
 
 
@@ -48,15 +47,16 @@ class CurtirPostView(View):
 
     def post(self, request, post_id):
         post = get_object_or_404(Post, id=post_id)
+        # Sua lógica de likes
         post.likes = (post.likes or 0) + 1
         post.save()
         return JsonResponse({"likes": post.likes})
     
-class LoginView(View):
+# ... (LoginView e RegisterView)
 
+class LoginView(View):
     def get(self, request):
         return render(request, 'pages/login.html')
-
 
     def post(self, request):
         username = request.POST.get('username')
@@ -72,12 +72,10 @@ class LoginView(View):
             return redirect('login')
 
 class RegisterView(View):
-
     def get(self, request):
         return render(request, 'pages/register.html')
     
     def post(self, request):
-        
         username = request.POST.get('username')
         password = request.POST.get('password')
         password2 = request.POST.get('password2')
@@ -110,12 +108,30 @@ class RegisterView(View):
         messages.success(request, "Cadastro realizado. Faça login.")
         return redirect('login')
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 class PostDetailView(LoginRequiredMixin, View):
     """Mostra o detalhe do post (GET), cria comentário (POST) e permite DELETE."""
 
     def get(self, request, post_id):
         post = get_object_or_404(Post, id=int(post_id))
+        
+        if request.user.is_authenticated:
+            user = request.user
+            
+            # 1. RASTREIA E REGISTRA CADA VISUALIZAÇÃO NO MODELO INTERMEDIÁRIO (N:N)
+            PostView.objects.create(
+                user=user,
+                post=post,
+                viewed_at=timezone.now()
+            )
+            
+            # 2. INCREMENTA O CONTADOR TOTAL SIMPLES (views_count)
+            Post.objects.filter(id=post_id).update(views_count=F('views_count') + 1)
+            
+            # 3. Recarrega o objeto 'post' para que ele reflita o novo valor na template.
+            post.refresh_from_db() 
+        
         comments = post.comments.all().order_by('created_by')
         return render(request, 'pages/post.html', {'post': post, 'comments': comments})
 
@@ -126,10 +142,9 @@ class PostDetailView(LoginRequiredMixin, View):
         if content and author:
             Comment.objects.create(post=post, author=author, content=content)
             return redirect('post_detail', post_id=post.id)
-        # reexibe mesmo que sem criar
         return self.get(request, post_id)
 
     def delete(self, request, post_id):
         post = get_object_or_404(Post, id=int(post_id))
-        post.delete(hard=False)  # usando soft delete
+        post.delete(hard=False) 
         return JsonResponse({"success": True})
