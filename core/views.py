@@ -55,9 +55,18 @@ class CurtirPostView(View):
     def post(self, request, post_id):
         post = get_object_or_404(Post, id=post_id)
         # Sua lógica de likes
-        post.likes = (post.likes or 0) + 1
+        user = request.user
+        if post.likes.filter(id=user.id).exists():
+            post.likes.remove(user)
+            liked = False
+        else:
+            post.likes.add(user)
+            liked = True
         post.save()
-        return JsonResponse({"likes": post.likes})
+        return JsonResponse({
+            'liked': liked,
+            'likes_count': post.likes.count(),
+        })
     
 # ... (LoginView e RegisterView)
 
