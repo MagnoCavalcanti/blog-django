@@ -7,7 +7,7 @@
 {% endblock %}
 {% block conteudo %}
 <div class="container" style="padding-top:18px;">
-	<dialog>
+	<dialog id="edit-modal">
          <form method="POST" action="{% url 'post_edit' post.pk %}" class="edit-post-form">
             {% csrf_token %}
             <input type="text" name="title" placeholder="Titulo do post" required class="edit-post-title" value="{{ post.title }}">

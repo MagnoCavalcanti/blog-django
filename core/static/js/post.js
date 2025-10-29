@@ -3,8 +3,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let url = window.location.pathname
     let parts = url.split("/")
     const postId = parts[2]
+    let editBtn = document.getElementById("edit")
 
-    if(!!deleteBtn){
+    if(!!deleteBtn && !!editBtn){
         deleteBtn.addEventListener("click", () => {
             fetch(`/posts/${postId}/`, {
                 method: "DELETE",
@@ -25,8 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
         })
 
 
-        let editBtn = document.getElementById("edit")
-        let dialog = document.querySelector("dialog")
+        
+        let dialog = document.querySelector("#edit-modal")
 
         editBtn.addEventListener("click", () => {
             dialog.showModal(); // Adicione os parênteses
