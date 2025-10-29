@@ -65,3 +65,129 @@
     cursor: pointer;
     font-size: 0.95rem;
 }
+
+/* Exemplo de CSS para o dropdown visual */
+.dropdown {
+  position: relative; /* Essencial para que o conteúdo fique abaixo */
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none; /* Oculto por padrão */
+  position: absolute; /* Permite posicionar o conteúdo */
+  background-color: #15202b;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.3);
+  z-index: 1;
+}
+
+.dropdown-content span {
+  color: #8899a6;
+  padding: 8px 12px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+  min-width: 160px;
+  cursor: pointer;
+}
+
+.dropdown-content span:hover {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block; /* Exibe o conteúdo ao passar o mouse */
+}
+
+.dropbtn {
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    padding: 6px 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 225px;
+    cursor: pointer;
+}
+
+dialog {
+     border: none;
+     border-radius: 12px;
+     padding: 0;
+     background: transparent; 
+}
+
+dialog::backdrop {
+     background: rgba(0,0,0,0.6);
+}
+
+.edit-post-form {
+     background: #0f1418;
+     color: #fff;
+     padding: 20px;
+     width: 420px;
+     max-width: calc(100% - 40px);
+     border-radius: 10px;
+     box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
+     box-sizing: border-box;
+}
+
+.edit-post-title {
+     background: #071014;
+     color: #e6eef2;
+     border: 1px solid rgba(255,255,255,0.04);
+     padding: 10px 12px;
+     border-radius: 8px;
+     outline: none;
+}
+
+.edit-post-title:focus {
+     box-shadow: 0 0 0 4px rgba(29,161,242,0.08);
+     border-color: #1da1f2;
+}
+
+.edit-post-content {
+     min-height: 120px;
+     max-height: 360px;
+     resize: vertical;
+     background: #071014;
+     color: #e6eef2;
+     border: 1px solid rgba(255,255,255,0.04);
+     padding: 10px 12px;
+     border-radius: 8px;
+     outline: none;
+     resize: none;
+}
+
+.edit-post-content:focus {
+     box-shadow: 0 0 0 4px rgba(29,161,242,0.08);
+     border-color: #1da1f2;
+}
+
+.edit-post-submit {
+     align-self: flex-end;
+     background: #1da1f2;
+     color: #071014;
+     border: none;
+     padding: 8px 14px;
+     border-radius: 999px;
+     cursor: pointer;
+     font-weight: 700;
+}
+
+.edit-post-submit:active {
+     transform: translateY(1px);
+}
+
+@media (max-width: 420px) {
+     .edit-post-form {
+         width: 100%;
+         padding: 14px;
+     }
+}
+
+
+
+

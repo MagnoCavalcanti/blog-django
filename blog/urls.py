@@ -22,6 +22,7 @@ from core import views
 urlpatterns = [
     path('', views.FeedView.as_view(), name='feed'),  # Configurando o feed como página inicial
     path('posts/<int:post_id>/', views.PostDetailView.as_view(), name='post_detail'),
+    path('posts/<int:pk>/editar', views.PostUpdateView.as_view(), name='post_edit'),
     path('curtir/<int:post_id>/', views.CurtirPostView.as_view(), name='curtir_post'),
     path('login/', views.LoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),

@@ -1,9 +1,9 @@
-let btn = document.getElementById("delete-post")
+let deleteBtn = document.getElementById("delete")
 let url = window.location.pathname
 let parts = url.split("/")
 const postId = parts[2]
 
-btn.addEventListener("click", () => {
+deleteBtn.addEventListener("click", () => {
     fetch(`/posts/${postId}/`, {
         method: "DELETE",
         headers: {
@@ -21,3 +21,16 @@ btn.addEventListener("click", () => {
         })
         
 })
+
+let editBtn = document.getElementById("edit")
+let dialog = document.querySelector("dialog")
+
+editBtn.addEventListener("click", () => {
+    dialog.showModal(); // Adicione os parênteses
+})
+
+dialog.addEventListener('click', function(event) {
+    if (event.target === dialog) {
+        dialog.close();
+    }
+});
