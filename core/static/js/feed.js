@@ -17,4 +17,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+
+
+    document.querySelectorAll('#postID').forEach(article => {
+        article.addEventListener('click', (e) => {
+            // Evita conflitos com botões internos (comentários, curtidas, etc.)
+            const isButton = e.target.closest('.action-button');
+            if (!isButton) {
+                const url = article.getAttribute('data-url');
+                window.location.href = url;
+            }
+            });
+    });
 });

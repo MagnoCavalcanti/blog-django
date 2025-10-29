@@ -4,7 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let parts = url.split("/")
     const postId = parts[2]
     let editBtn = document.getElementById("edit")
-
+    console.log(postId);
+    
     if(!!deleteBtn && !!editBtn){
         deleteBtn.addEventListener("click", () => {
             fetch(`/posts/${postId}/`, {
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   likeBtn.addEventListener('click', async function () {
-    const response = await fetch(`/curtir/${postId}/`, {
+    const response = await fetch(`http://127.0.0.1:8000/curtir/${postId}/`, {
       method: 'POST',
       headers: {
         'X-CSRFToken': CSRF_TOKEN,
