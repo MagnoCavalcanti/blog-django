@@ -1,68 +1,98 @@
 document.addEventListener('DOMContentLoaded', function () {
-    let deleteBtn = document.getElementById("delete")
-    let url = window.location.pathname
-    let parts = url.split("/")
-    const postId = parts[2]
-    let editBtn = document.getElementById("edit")
-    console.log(postId);
-    
-    if(!!deleteBtn && !!editBtn){
-        deleteBtn.addEventListener("click", () => {
+    // Helpers
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const url = window.location.pathname;
+    const parts = url.split('/');
+    const postId = parts[2] || null; // /posts/<id>/ -> index 2
+
+    const deleteBtn = document.getElementById('delete');
+    const editBtn = document.getElementById('edit');
+    const likeBtn = document.getElementById('like-btn');
+    const likeCount = document.getElementById('like-count');
+
+    // DELETE do post via fetch DELETE (AJAX)
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', () => {
+            if (!postId) return alert('ID do post não encontrado.');
             fetch(`/posts/${postId}/`, {
-                method: "DELETE",
+                method: 'DELETE',
                 headers: {
-                    "X-CSRFToken": "{{ csrf_token }}" // necessário se sua view exigir CSRF
+                    'X-CSRFToken': getCookie('csrftoken')
                 }
             })
-                .then(response => {
-                    console.log(response);
-                    
-                    if (response.ok) {
-                        window.location.href = "/"; // recarrega o feed
-                    } else {
-                        alert("Erro ao excluir post");
-                    }
-                })
-            
-        })
-
-
-        
-        let dialog = document.querySelector("#edit-modal")
-
-        editBtn.addEventListener("click", () => {
-            dialog.showModal(); // Adicione os parênteses
-        })
-
-        dialog.addEventListener('click', function(event) {
-            if (event.target === dialog) {
-                dialog.close();
-            }
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    alert('Erro ao excluir post');
+                }
+            })
+            .catch(err => {
+                console.error('Erro na requisição DELETE:', err);
+                alert('Erro na requisição');
+            });
         });
     }
 
+    // Modal de edição (se existir)
+    if (editBtn) {
+        const dialog = document.querySelector('#edit-modal');
+        editBtn.addEventListener('click', () => {
+            if (dialog && typeof dialog.showModal === 'function') dialog.showModal();
+        });
+        if (dialog) {
+            dialog.addEventListener('click', function(event) {
+                if (event.target === dialog) dialog.close();
+            });
+        }
+    }
 
-  const likeBtn = document.getElementById('like-btn');
-  const likeCount = document.getElementById('like-count');
+    // Curtir (like) via fetch POST
+    if (likeBtn) {
+        likeBtn.addEventListener('click', async function () {
+            if (!postId) return console.error('postId não encontrado');
+            try {
+                const response = await fetch(`/curtir/${postId}/`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRFToken': getCookie('csrftoken'),
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json'
+                    },
+                });
 
+                if (!response.ok) {
+                    console.error('Resposta não OK ao curtir:', response.status);
+                    return;
+                }
 
-  likeBtn.addEventListener('click', async function () {
-    const response = await fetch(`http://127.0.0.1:8000/curtir/${postId}/`, {
-      method: 'POST',
-      headers: {
-        'X-CSRFToken': CSRF_TOKEN,
-        'X-Requested-With': 'XMLHttpRequest',
-      },
-    });
+                const data = await response.json();
 
-    const data = await response.json();
+                // Atualiza o contador se existir
+                if (likeCount) likeCount.innerText = `${data.likes_count}`;
 
-    
+                // Atualiza o botão (icone) visualmente
+                likeBtn.innerHTML = data.liked
+                    ? `<img width="18" height="18" src="https://img.icons8.com/fluency-systems-filled/48/F91880/like.png" alt="like"/> <span class="active" id="like-count">${data.likes_count}</span>`
+                    : `<img width="18" height="18" src="https://img.icons8.com/fluency-systems-regular/48/8899a6/like--v1.png" alt="like--v1"/><span id="like-count">${data.likes_count}</span>`;
 
-    // Atualiza o texto e contador
-    likeCount.innerText = `${data.likes_count}`;
-
-    likeBtn.innerHTML = data.liked? `<img width="18" height="18" src="https://img.icons8.com/fluency-systems-filled/48/F91880/like.png" alt="like"/> <span class="active" id="like-count">${data.likes_count}</span> ` : `<img width="18" height="18" src="https://img.icons8.com/fluency-systems-regular/48/8899a6/like--v1.png" alt="like--v1"/><span id="like-count">${data.likes_count}</span>`
-    
-  })
+            } catch (err) {
+                console.error('Erro ao curtir:', err);
+            }
+        });
+    }
 })
