@@ -134,6 +134,10 @@ class PostDetailView(LoginRequiredMixin, View):
         
         if request.user.is_authenticated:
             user = request.user
+            if post.likes.filter(id=user.id).exists():
+                liked = True
+            else:
+                liked = False
             
             # 1. RASTREIA E REGISTRA CADA VISUALIZAÇÃO NO MODELO INTERMEDIÁRIO (N:N)
             PostView.objects.create(
@@ -149,7 +153,7 @@ class PostDetailView(LoginRequiredMixin, View):
             post.refresh_from_db() 
         
         comments = post.comments.all().order_by('created_by')
-        return render(request, 'pages/post.html', {'post': post, 'comments': comments})
+        return render(request, 'pages/post.html', {'post': post, 'comments': comments, "liked": liked})
 
     def post(self, request, post_id):
         post = get_object_or_404(Post, id=int(post_id))

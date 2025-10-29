@@ -38,6 +38,10 @@
     font-size: 0.95em;
 }
 
+span.active{
+    color: #F91880;
+}
+
 
 .btn-primary {
     background-color: #1da1f2;
