@@ -55,11 +55,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const data = await response.json();
 
-    console.log(data.likes_count);
     
 
     // Atualiza o texto e contador
     likeCount.innerText = `${data.likes_count}`;
+
+    likeBtn.innerHTML = data.liked? `<img width="18" height="18" src="https://img.icons8.com/fluency-systems-filled/48/F91880/like.png" alt="like"/> <span class="active" id="like-count">${data.likes_count}</span> ` : `<img width="18" height="18" src="https://img.icons8.com/fluency-systems-regular/48/8899a6/like--v1.png" alt="like--v1"/><span id="like-count">${data.likes_count}</span>`
     
   })
 })
