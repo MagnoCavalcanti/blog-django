@@ -4,7 +4,7 @@
     display: flex;
     width: 100%;
     /* Fundo escuro */
-    background-color: #0f1418; 
+    background-color: #15202b ; 
     border-bottom: 1px solid #38444d; /* Linha divisoria */
     position: sticky; /* Fixa as abas logo abaixo do header */
     top: 50px; /* Ajuste para ficar abaixo do seu .site-header fixo */
@@ -53,85 +53,7 @@
 
 /* --- CORRECOES NO HEADER E BOTOES (Para resolver o problema de estetica) --- */
 
-/* Header full-width e Alinhamento */
-.site-header {
-    width: 100%; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: left;
-    /* AJUSTE: Padding mais compacto */
-    padding: 8px 16px; 
-    box-sizing: border-box;
-    /* AJUSTE: Cor de fundo solida */
-    background: #000000; 
-    color: #ffffff;
-    position: sticky; 
-    top: 0;
-    z-index: 50;
-    border-bottom: 1px solid #38444d;
-}
 
-.site-header .header-content {
-    max-width: 1100px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    /* GARANTE ESPACO ENTRE O TITULO E OS BOTOES */
-    justify-content: space-between; 
-    gap: 12px;
-}
-
-.site-title {
-    /* AJUSTE: Fonte maior e mais negrita */
-    font-size: 1.2rem; 
-    line-height: 1;
-    margin: 0;
-    font-weight: 800; 
-    color: #ffffff;
-}
-
-.site-subtitle {
-    display: none; /* esconder subtitulo em barra de navegacao */
-}
-
-.header-cta {
-    display: flex;
-    /* AJUSTE: Mais espaco entre os botoes */
-    gap: 16px; 
-    align-items: center;
-}
-
-/* Botoes */
-.btn-primary {
-    background-color: #1da1f2;
-    color: #0b1419;
-    border: none;
-    /* AJUSTE: Padding padrao para botoes */
-    padding: 8px 16px; 
-    border-radius: 999px; /* Borda bem arredondada */
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform 0.12s ease, box-shadow 0.12s ease;
-    font-size: 0.95rem;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(29,161,242,0.12);
-}
-
-.btn-ghost {
-    background: transparent;
-    color: #8899a6;
-    border: 1px solid rgba(136,153,166,0.12);
-    /* AJUSTE: Padding consistente com o primario */
-    padding: 8px 16px; 
-    border-radius: 999px;
-    cursor: pointer;
-    font-size: 0.95rem;
-    font-weight: 600;
-}
 
 
 /* --- RESTANTE DO SEU CSS ORIGINAL --- */
@@ -206,80 +128,3 @@
 }
 
 /* Estilos para o dialogo de novo post */
-dialog {
-     border: none;
-     border-radius: 12px;
-     padding: 0;
-     background: transparent; 
-}
-
-dialog::backdrop {
-     background: rgba(0,0,0,0.6);
-}
-
-.new-post-form {
-     background: #0f1418;
-     color: #fff;
-     padding: 20px;
-     width: 420px;
-     max-width: calc(100% - 40px);
-     border-radius: 10px;
-     box-shadow: 0 10px 30px rgba(2,6,23,0.6);
-     display: flex;
-     flex-direction: column;
-     gap: 10px;
-     box-sizing: border-box;
-}
-
-.new-post-title {
-     background: #071014;
-     color: #e6eef2;
-     border: 1px solid rgba(255,255,255,0.04);
-     padding: 10px 12px;
-     border-radius: 8px;
-     outline: none;
-}
-
-.new-post-title:focus {
-     box-shadow: 0 0 0 4px rgba(29,161,242,0.08);
-     border-color: #1da1f2;
-}
-
-.new-post-content {
-     min-height: 120px;
-     max-height: 360px;
-     resize: vertical;
-     background: #071014;
-     color: #e6eef2;
-     border: 1px solid rgba(255,255,255,0.04);
-     padding: 10px 12px;
-     border-radius: 8px;
-     outline: none;
-}
-
-.new-post-content:focus {
-     box-shadow: 0 0 0 4px rgba(29,161,242,0.08);
-     border-color: #1da1f2;
-}
-
-.new-post-submit {
-     align-self: flex-end;
-     background: #1da1f2;
-     color: #071014;
-     border: none;
-     padding: 8px 14px;
-     border-radius: 999px;
-     cursor: pointer;
-     font-weight: 700;
-}
-
-.new-post-submit:active {
-     transform: translateY(1px);
-}
-
-@media (max-width: 420px) {
-     .new-post-form {
-         width: 100%;
-         padding: 14px;
-     }
-}

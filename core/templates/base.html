@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load custom_tags %}
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
@@ -12,10 +13,35 @@
 </head>
 <body>
     <div class="container">
+        {% if user.is_authenticated %}
+        <dialog>
+            <form method="post" action="" class="new-post-form">
+                {% csrf_token %}
+                <input type="text" name="title" placeholder="Titulo do post" required class="new-post-title">
+                <textarea name="content" placeholder="O que voce esta pensando?" required class="new-post-content"></textarea>
+                <button type="submit" class="new-post-submit">Publicar</button>
+            </form>
+        </dialog>
+
+        <header class="site-header">
+            <div class="header-content container">
+                <h1 class="site-title">Feed</h1>
+                <p class="site-subtitle">Acompanhe as publicacoes da comunidade e compartilhe suas ideias.</p>
+                <div class="header-cta">
+                    <button id="open-dialog-btn" class="btn-primary {% is_feed_url 'inativo' %}">Criar Post</button>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button class="btn-ghost">Sair</button>
+                    </form>
+                </div>
+            </div>
+        </header>
+        {% endif %}
         {% block conteudo %}{% endblock %}
     </div>
     {% block scripts %}
     
     {% endblock %}
+    <script src="{% static 'js/feed.js' %}"></script>
 </body>
 </html>
