@@ -3,6 +3,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import View
 from django.views.generic import UpdateView
 from django.urls import reverse

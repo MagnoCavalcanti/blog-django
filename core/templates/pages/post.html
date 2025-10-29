@@ -15,12 +15,31 @@
             <button type="submit" class="edit-post-submit">Publicar</button>
          </form>
      </dialog>
+	<dialog>
+         <form method="POST" action="{% url 'post_edit' post.pk %}" class="edit-post-form">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="Titulo do post" required class="edit-post-title" value="{{ post.title }}">
+            <textarea name="content" placeholder="O que voce esta pensando?" required class="edit-post-content">{{ post.content }}</textarea>
+            <button type="submit" class="edit-post-submit">Publicar</button>
+         </form>
+     </dialog>
 	<article class="post">
 		<div class="post-header">
 			<div class="post-user-info">
 				<span class="post-user-name">{{ post.author.first_name }} {{ post.author.last_name }}</span>
 				<span class="post-user-handle">@{{ post.author.username|lower }}</span>
 				<span class="post-time">· {{ post.created_by|timesince }}</span>
+				{% if user == post.author %}
+					<div class="dropdown">
+						<button class="dropbtn">
+							<img width="15" height="15" src="https://img.icons8.com/ios-glyphs/30/8899a6/ellipsis.png" alt="ellipsis"/>
+						</button>
+						<div class="dropdown-content">
+							<span id="edit">Editar</span>
+							<span id="delete">Excluir</span>
+						</div>
+					</div>
+				{% endif %}
 				{% if user == post.author %}
 					<div class="dropdown">
 						<button class="dropbtn">
@@ -79,6 +98,7 @@
 			<p>Nenhum comentário ainda. Seja o primeiro!</p>
 		{% endif %}
 
+		<form method="post" action="{% url 'post_detail' post.id %}" style="margin-top:12px;" class="new-comment-form">
 		<form method="post" action="{% url 'post_detail' post.id %}" style="margin-top:12px;" class="new-comment-form">
 			{% csrf_token %}
 			<textarea name="content" placeholder="Adicione um comentário..." required style="width:100%; min-height:80px; padding:10px; border-radius:8px; background:#071014; color:#e6eef2; border:1px solid rgba(255,255,255,0.04); resize: none;"></textarea>
