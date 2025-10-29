@@ -7,20 +7,31 @@
 {% endblock %}
 {% block conteudo %}
 <div class="container" style="padding-top:18px;">
+	<dialog>
+         <form method="POST" action="{% url 'post_edit' post.pk %}" class="edit-post-form">
+            {% csrf_token %}
+            <input type="text" name="title" placeholder="Titulo do post" required class="edit-post-title" value="{{ post.title }}">
+            <textarea name="content" placeholder="O que voce esta pensando?" required class="edit-post-content">{{ post.content }}</textarea>
+            <button type="submit" class="edit-post-submit">Publicar</button>
+         </form>
+     </dialog>
 	<article class="post">
 		<div class="post-header">
 			<div class="post-user-info">
 				<span class="post-user-name">{{ post.author.first_name }} {{ post.author.last_name }}</span>
 				<span class="post-user-handle">@{{ post.author.username|lower }}</span>
 				<span class="post-time">· {{ post.created_by|timesince }}</span>
-                <span> 
-                    <button class="btn-primary" id="delete-post">
-                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="15" height="15" viewBox="0 0 30 30">
-                        <path fill="currentColor" d="M 14.984375 2.4863281 A 1.0001 1.0001 0 0 0 14 3.5 L 14 4 L 8.5 4 A 1.0001 1.0001 0 0 0 7.4863281 5 L 6 5 A 1.0001 1.0001 0 1 0 6 7 L 24 7 A 1.0001 1.0001 0 1 0 24 5 L 22.513672 5 A 1.0001 1.0001 0 0 0 21.5 4 L 16 4 L 16 3.5 A 1.0001 1.0001 0 0 0 14.984375 2.4863281 z M 6 9 L 7.7929688 24.234375 C 7.9109687 25.241375 8.7633438 26 9.7773438 26 L 20.222656 26 C 21.236656 26 22.088031 25.241375 22.207031 24.234375 L 24 9 L 6 9 z"></path>
-                        </svg>
-                    </button>
-                </span>
-
+				{% if user == post.author %}
+					<div class="dropdown">
+						<button class="dropbtn">
+							<img width="15" height="15" src="https://img.icons8.com/ios-glyphs/30/8899a6/ellipsis.png" alt="ellipsis"/>
+						</button>
+						<div class="dropdown-content">
+							<span id="edit">Editar</span>
+							<span id="delete">Excluir</span>
+						</div>
+					</div>
+				{% endif %}
 				<div class="post-title">
 					<h2>{{ post.title }}</h2>
 				</div>
@@ -68,7 +79,7 @@
 			<p>Nenhum comentário ainda. Seja o primeiro!</p>
 		{% endif %}
 
-		<form method="post" action="" style="margin-top:12px;" class="new-comment-form">
+		<form method="post" action="{% url 'post_detail' post.id %}" style="margin-top:12px;" class="new-comment-form">
 			{% csrf_token %}
 			<textarea name="content" placeholder="Adicione um comentário..." required style="width:100%; min-height:80px; padding:10px; border-radius:8px; background:#071014; color:#e6eef2; border:1px solid rgba(255,255,255,0.04); resize: none;"></textarea>
 			<div style="display:flex; gap:8px; justify-content:flex-end; margin-top:8px;">

@@ -2,8 +2,10 @@
 
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views import View
+from django.views.generic import UpdateView
+from django.urls import reverse
 from .models import Post, Comment, User, PostView # Importe PostView
 from django.shortcuts import redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -152,3 +154,18 @@ class PostDetailView(LoginRequiredMixin, View):
         post = get_object_or_404(Post, id=int(post_id))
         post.delete(hard=False) 
         return JsonResponse({"success": True})
+
+
+# Página de edição do post
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Post
+    fields = ['title', 'content']
+    template_name = 'pages/post.html'
+
+    def get_success_url(self):
+        return reverse('post_detail', kwargs={'post_id': self.object.id})
+
+    # Garante que apenas o autor pode editar
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author
