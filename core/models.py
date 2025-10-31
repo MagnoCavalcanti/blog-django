@@ -20,8 +20,7 @@ class SoftDeletableMixin(models.Model):
         abstract = True
 
 
-# 🟢 NOVO MODELO: PostView (Modelo Intermediário para rastrear N:N)
-# Rastreia quem viu, qual post viu e quando viu (viewed_at).
+
 class PostView(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey('Post', on_delete=models.CASCADE)
@@ -34,7 +33,7 @@ class PostView(models.Model):
         ordering = ['-viewed_at']
 
 
-# ATUALIZAÇÃO DO MODELO Post
+
 class Post(SoftDeletableMixin, models.Model):
     title = models.CharField(max_length=200, null=False)
     content = models.TextField(null=False)
@@ -42,10 +41,8 @@ class Post(SoftDeletableMixin, models.Model):
     created_by = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='posts_curtidos', blank=True)
 
-    #Contador total (simples, incrementado na view)
     views_count = models.IntegerField(default=0)
-    
-    # Relação ManyToMany usando PostView como intermediário
+
     viewers = models.ManyToManyField(
         User, 
         through=PostView, 

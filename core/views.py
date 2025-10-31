@@ -138,18 +138,15 @@ class PostDetailView(LoginRequiredMixin, View):
                 liked = True
             else:
                 liked = False
-            
-            # 1. RASTREIA E REGISTRA CADA VISUALIZAÇÃO NO MODELO INTERMEDIÁRIO (N:N)
+
             PostView.objects.create(
                 user=user,
                 post=post,
                 viewed_at=timezone.now()
             )
-            
-            # 2. INCREMENTA O CONTADOR TOTAL SIMPLES (views_count)
+
             Post.objects.filter(id=post_id).update(views_count=F('views_count') + 1)
-            
-            # 3. Recarrega o objeto 'post' para que ele reflita o novo valor na template.
+
             post.refresh_from_db() 
         
         comments = post.comments.all().order_by('created_by')
